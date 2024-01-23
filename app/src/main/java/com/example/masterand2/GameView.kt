@@ -36,6 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import okhttp3.internal.toImmutableList
 
+private val COLORS_CONST = listOf(
+    Color.Red, Color.Blue, Color.Yellow, Color.Cyan, Color.Gray,Color.Green, Color.DarkGray, Color.Magenta,Color.Black, Color.LightGray
+)
 @Composable
 fun CircularButton(onClick: () -> Unit, color: Color) {
     Button(
@@ -140,10 +143,6 @@ fun GameRow(
     }
 }
 
-private val AVAILABLE_COLORS = listOf(
-    Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Magenta,
-    Color.Cyan, Color.Gray, Color.DarkGray, Color.Black, Color.LightGray
-)
 
 fun selectRandomColors(availableColors: List<Color>, numToSelect: Int): List<Color> {
     return availableColors.shuffled().take(numToSelect)
@@ -181,7 +180,7 @@ fun GameScreen(
     navController: NavController,
     colors: Int = 6
 ) {
-    var usedColors by remember { mutableStateOf(selectRandomColors(AVAILABLE_COLORS, colors)) }
+    var usedColors by remember { mutableStateOf(selectRandomColors(COLORS_CONST, colors)) }
     var correctAnswer by remember { mutableStateOf(selectRandomColors(usedColors, 4)) }
     var selectedColors = remember {
         mutableStateListOf<Color>(
@@ -272,7 +271,7 @@ fun GameScreen(
         item {
             if (isGameOver) {
                 Button(onClick = {
-                    usedColors = selectRandomColors(AVAILABLE_COLORS, 6)
+                    usedColors = selectRandomColors(COLORS_CONST, 6)
                     correctAnswer = selectRandomColors(usedColors, 4)
                     selectedColors.clear()
                     feedbackColors.clear()
